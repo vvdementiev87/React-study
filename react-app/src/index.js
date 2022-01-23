@@ -1,31 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./index.module.css";
 
 const AppComponent = () => {
-  const messages = [
-    {
-      author: "Michael",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2022, 0, 2),
-    },
-    {
-      author: "Fedor",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2021, 0, 1),
-    },
-    {
-      author: "Maga",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2001, 1, 12),
-    },
-  ];
-  return <MessageComponent messages={messages} />;
+  return (
+    <div>
+      <MessageComponent />
+    </div>
+  );
 };
 
-function MessageComponent({ messages }) {
+const MessageComponent = () => {
   const timeOptions = {
-    era: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -35,21 +21,56 @@ function MessageComponent({ messages }) {
     minute: "numeric",
     second: "numeric",
   };
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  let timerId = null;
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.author !== "Bot" && messages.length > 0) {
+      timerId = setTimeout(() => {
+        setMessages([
+          ...messages,
+          { author: "Bot", text: "Bot message", date: new Date() },
+        ]);
+      }, 1000);
+    }
+    return () => clearInterval(timerId);
+  }, [messages]);
+
+  const sendMessage = () => {
+    if (message) {
+      setMessages([
+        ...messages,
+        { author: "User", text: message, date: new Date() },
+      ]);
+      setMessage("");
+    } else {
+      alert("Enter your message");
+    }
+  };
+
   return (
     <div className={styles.messages}>
-      {messages.map((message, id) => {
-        return (
-          <div data-id={id} className={styles.message}>
-            <h2>Message number {id + 1}:</h2>
-            <p>Author: {message.author}</p>
-            <p>{message.text}</p>
-            <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-          </div>
-        );
-      })}
+      {messages.map((message, id) => (
+        <div key={id} className={styles.message}>
+          <h2>Message number {id + 1}:</h2>
+          <p>Author: {message.author}</p>
+          <p>{message.text}</p>
+          <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
+        </div>
+      ))}
+      <label htmlFor="messageId">Input message: </label>
+      <input
+        id="messageId"
+        onChange={(event) => setMessage(event.target.value)}
+        placeholder="message..."
+        value={message}
+      />
+      <button onClick={sendMessage}>Send</button>
     </div>
   );
-}
+};
 
 ReactDOM.render(
   <React.StrictMode>
