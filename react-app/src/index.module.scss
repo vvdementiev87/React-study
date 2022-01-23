@@ -3,21 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-.messages {
+.main {
   width: 100%;
-  max-width: 1024px;
+  max-width: 1280px;
   padding: 20px;
-  gap: 30px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.message {
-  width: 100%;
-  gap: 10px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
 } /*# sourceMappingURL=index.css.map */

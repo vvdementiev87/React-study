@@ -1,80 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import styles from "./index.module.css";
+import { MessageComponent } from "./components";
+import { List, ListItem, ThemeProvider } from "@mui/material";
+import stylesList from "./index.module.css";
+import { createTheme } from "@mui/system";
 
 const AppComponent = () => {
+  const chatList = [
+    { id: 1, name: "one" },
+    { id: 2, name: "two" },
+    { id: 3, name: "three" },
+  ];
   return (
-    <div>
+    <div className={stylesList.main}>
+      <List>
+        {chatList.map((chart) => (
+          <ListItem key={chart.id}>{chart.name}</ListItem>
+        ))}
+      </List>
       <MessageComponent />
     </div>
   );
 };
 
-const MessageComponent = () => {
-  const timeOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  };
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  let timerId = null;
-
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.author !== "Bot" && messages.length > 0) {
-      timerId = setTimeout(() => {
-        setMessages([
-          ...messages,
-          { author: "Bot", text: "Bot message", date: new Date() },
-        ]);
-      }, 1000);
-    }
-    return () => clearInterval(timerId);
-  }, [messages]);
-
-  const sendMessage = () => {
-    if (message) {
-      setMessages([
-        ...messages,
-        { author: "User", text: message, date: new Date() },
-      ]);
-      setMessage("");
-    } else {
-      alert("Enter your message");
-    }
-  };
-
-  return (
-    <div className={styles.messages}>
-      {messages.map((message, id) => (
-        <div key={id} className={styles.message}>
-          <h2>Message number {id + 1}:</h2>
-          <p>Author: {message.author}</p>
-          <p>{message.text}</p>
-          <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-        </div>
-      ))}
-      <label htmlFor="messageId">Input message: </label>
-      <input
-        id="messageId"
-        onChange={(event) => setMessage(event.target.value)}
-        placeholder="message..."
-        value={message}
-      />
-      <button onClick={sendMessage}>Send</button>
-    </div>
-  );
-};
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#0052cc",
+    },
+    secondary: {
+      main: "#edf2ff",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppComponent />
+    <ThemeProvider theme={theme}>
+      <AppComponent />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
