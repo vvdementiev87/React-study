@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { MessageComponent } from "./components";
-import { List, ListItem, ThemeProvider } from "@mui/material";
+import { List, ListItem, ThemeProvider, createTheme } from "@mui/material";
 import stylesList from "./index.module.css";
-import { createTheme } from "@mui/system";
 
 const AppComponent = () => {
   const chatList = [
@@ -23,16 +22,7 @@ const AppComponent = () => {
   );
 };
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#0052cc",
-    },
-    secondary: {
-      main: "#edf2ff",
-    },
-  },
-});
+const theme = createTheme();
 
 ReactDOM.render(
   <React.StrictMode>
