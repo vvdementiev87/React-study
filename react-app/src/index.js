@@ -2,23 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { MessageComponent } from "./components";
 import { List, ListItem, ThemeProvider, createTheme } from "@mui/material";
-import stylesList from "./index.module.css";
+import { useStyles } from "./style";
 
 const AppComponent = () => {
+  const styles = useStyles();
   const chatList = [
     { id: 1, name: "one" },
     { id: 2, name: "two" },
     { id: 3, name: "three" },
   ];
   return (
-    <div className={stylesList.main}>
-      <List>
-        {chatList.map((chart) => (
-          <ListItem key={chart.id}>{chart.name}</ListItem>
-        ))}
-      </List>
-      <MessageComponent />
-    </div>
+    <div className={styles.root}><div className={styles.main}>
+    <List>
+      {chatList.map((chart) => (
+        <ListItem key={chart.id}>{chart.name}</ListItem>
+      ))}
+    </List>
+    <MessageComponent />
+  </div></div>
   );
 };
 

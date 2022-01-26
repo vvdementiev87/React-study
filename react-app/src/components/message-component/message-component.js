@@ -5,10 +5,8 @@ import { Button, Input, InputLabel } from "@mui/material";
 export const MessageComponent = () => {
   const timeOptions = {
     year: "numeric",
-    month: "long",
+    month: "numeric",
     day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
@@ -53,6 +51,16 @@ export const MessageComponent = () => {
 
   return (
     <div className={styles.messages}>
+      
+      {messages.map((message, id) => (
+        <div key={id} className={styles.message}>
+          <p className={styles.messageText}>{message.author}</p>
+          <p>{message.text}</p>
+          <p className={styles.messageText}>{message.date.toLocaleString("ru", timeOptions)}</p>
+        </div>
+      ))}
+      
+      <div className={styles.messagesInput}>
       <InputLabel htmlFor="messageId">Input message: </InputLabel>
       <Input
         id="messageId"
@@ -63,14 +71,7 @@ export const MessageComponent = () => {
         onKeyPress={hadlePressInput}
       />
       <Button onClick={sendMessage}>Send</Button>
-      {messages.map((message, id) => (
-        <div key={id} className={styles.message}>
-          <h2>Message number {id + 1}:</h2>
-          <p>Author: {message.author}</p>
-          <p>{message.text}</p>
-          <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-        </div>
-      ))}
+    </div>
     </div>
   );
 };
