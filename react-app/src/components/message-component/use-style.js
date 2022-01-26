@@ -9,9 +9,8 @@ export const useStyles = makeStyles((ctx) => {
       padding: "20px",
       gap: "10px",
       display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      flexDirection: "column", 
+           alignItems: "center",
     },
     messagesInput: {
       width: "100%",
@@ -21,18 +20,34 @@ export const useStyles = makeStyles((ctx) => {
       justifyContent: "space-between",
       alignItems: "center",
     },
-    message: {
+    
+    messageLeft: {      
+      alignSelf:"flex-start",
+      color: "#ffffff",
+      border: "none",
+      padding: "10px",
+      borderRadius: "5px",
+      backgroundColor: "#be4699",
+      width: "80%",
+      gap: "10px",
+      margin: "0 10px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center"      
+    },
+    messageRight: {      
+      alignSelf:"flex-end",
       color: "#ffffff",
       border: "none",
       padding: "10px",
       borderRadius: "5px",
       backgroundColor: "#46be46",
-      width: "100%",
+      width: "80%",      
       gap: "10px",
-      margin: "0 auto",
+      margin: "0 10px",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
+      justifyContent: "center"      
     },
     messageText: {
       width: "100%",

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { MessageComponent } from "./components";
 import { List, ListItem, ThemeProvider, createTheme } from "@mui/material";
 import { useStyles } from "./style";
+import "./global.css";
 
 const AppComponent = () => {
   const styles = useStyles();
@@ -12,14 +13,14 @@ const AppComponent = () => {
     { id: 3, name: "three" },
   ];
   return (
-    <div className={styles.root}><div className={styles.main}>
+  <div className={styles.main}>
     <List>
       {chatList.map((chart) => (
         <ListItem key={chart.id}>{chart.name}</ListItem>
       ))}
     </List>
     <MessageComponent />
-  </div></div>
+  </div>
   );
 };
 

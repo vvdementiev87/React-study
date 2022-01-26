@@ -53,7 +53,7 @@ export const MessageComponent = () => {
     <div className={styles.messages}>
       
       {messages.map((message, id) => (
-        <div key={id} className={styles.message}>
+        <div key={id} className={(message.author==="Bot") ? styles.messageLeft : styles.messageRight}>
           <p className={styles.messageText}>{message.author}</p>
           <p>{message.text}</p>
           <p className={styles.messageText}>{message.date.toLocaleString("ru", timeOptions)}</p>
