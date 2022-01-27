@@ -1,20 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MessageComponent, ChatList} from "./components";
+import {
+  MessageComponent,
+  ChatList,
+  ChatPage,
+  ProfilePage,
+} from "./components";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStyles } from "./style";
-import { ChatPage, ProfilePage } from "./pages";
 import "./global.css";
 
 const AppComponent = () => {
   const styles = useStyles();
-    
+
   return (
-  <div className={styles.main}>
-    <ChatList/>
-    <MessageComponent />
-  </div>)
-}
+    <div className={styles.main}>
+      <ChatList />
+      <MessageComponent />
+    </div>
+  );
+};
 
 const theme = createTheme();
 
