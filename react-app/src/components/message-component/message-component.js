@@ -80,6 +80,7 @@ export const MessageComponent = () => {
         onChange={(event) => setMessage(event.target.value)}
         placeholder="message..."
         value={message}
+        fullWidth
         onKeyPress={hadlePressInput}
       />
       <Button onClick={sendMessage}>Send</Button>

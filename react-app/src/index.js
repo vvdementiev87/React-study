@@ -1,28 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MessageComponent } from "./components";
-import { List, ListItem, ThemeProvider, createTheme } from "@mui/material";
+import { MessageComponent, ChatList} from "./components";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { useStyles } from "./style";
+import { ChatPage, ProfilePage } from "./pages";
 import "./global.css";
 
 const AppComponent = () => {
   const styles = useStyles();
-  const chatList = [
-    { id: 1, name: "one" },
-    { id: 2, name: "two" },
-    { id: 3, name: "three" },
-  ];
+    
   return (
   <div className={styles.main}>
-    <List className={styles.chatList} >
-      {chatList.map((chart) => (
-        <ListItem key={chart.id}>{chart.name}</ListItem>
-      ))}
-    </List>
+    <ChatList/>
     <MessageComponent />
-  </div>
-  );
-};
+  </div>)
+}
 
 const theme = createTheme();
 
@@ -30,6 +22,14 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <AppComponent />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat/*" element={<ChatPage />} />
+          <Route path="/" element={<h1>Home page</h1>} />
+          <Route path="/*" element={<h1>404</h1>} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

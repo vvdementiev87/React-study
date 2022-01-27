@@ -12,7 +12,6 @@ export const useStyles = makeStyles((ctx) => {
            alignItems: "center",
            
            justifyContent: "space-between",
-           /* alignSelf:"stretch", */
     },
     messagesList: {
       width: "100%",      
@@ -61,6 +60,7 @@ export const useStyles = makeStyles((ctx) => {
       justifyContent: "center"      
     },
     messageText: {
+      wordBreak:"break-all",
       width: "100%",
       display: "flex",
       justifyContent: "flex-end",
