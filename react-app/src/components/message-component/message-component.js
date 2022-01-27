@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback} from "react";
 import { useStyles } from "./use-style";
 import { Button, Input, InputLabel } from "@mui/material";
 
@@ -29,13 +29,26 @@ export const MessageComponent = () => {
       }, 1000);
     }
     return () => clearInterval(timerId);
+    
   }, [messages]);
+
+  const handleScrollBottom = useCallback(() => {
+    if (ref.current) {
+      ref.current.scrollTo(0, ref.current.scrollHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleScrollBottom();
+  }, [messages, handleScrollBottom]);
 
   const hadlePressInput = (event) => {
     if (event.code === "Enter") {
       sendMessage();
     }
   };
+
+  
 
   const sendMessage = () => {
     if (message) {
@@ -51,7 +64,7 @@ export const MessageComponent = () => {
 
   return (
     <div className={styles.messages}>
-      
+      <div className={styles.messagesList} ref={ref}>
       {messages.map((message, id) => (
         <div key={id} className={(message.author==="Bot") ? styles.messageLeft : styles.messageRight}>
           <p className={styles.messageText}>{message.author}</p>
@@ -59,7 +72,7 @@ export const MessageComponent = () => {
           <p className={styles.messageText}>{message.date.toLocaleString("ru", timeOptions)}</p>
         </div>
       ))}
-      
+      </div>
       <div className={styles.messagesInput}>
       <InputLabel htmlFor="messageId">Input message: </InputLabel>
       <Input
@@ -67,7 +80,6 @@ export const MessageComponent = () => {
         onChange={(event) => setMessage(event.target.value)}
         placeholder="message..."
         value={message}
-        inputRef={ref}
         onKeyPress={hadlePressInput}
       />
       <Button onClick={sendMessage}>Send</Button>

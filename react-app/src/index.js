@@ -14,7 +14,7 @@ const AppComponent = () => {
   ];
   return (
   <div className={styles.main}>
-    <List>
+    <List className={styles.chatList} >
       {chatList.map((chart) => (
         <ListItem key={chart.id}>{chart.name}</ListItem>
       ))}

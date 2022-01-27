@@ -6,11 +6,21 @@ export const useStyles = makeStyles((ctx) => {
     messages: {
       width: "100%",
       maxWidth: "1024px",
-      padding: "20px",
+      padding: "20px 0 20px 20px",
+      display: "flex",
+      flexDirection: "column", 
+           alignItems: "center",
+           
+           justifyContent: "space-between",
+           /* alignSelf:"stretch", */
+    },
+    messagesList: {
+      width: "100%",      
       gap: "10px",
       display: "flex",
       flexDirection: "column", 
            alignItems: "center",
+           
     },
     messagesInput: {
       width: "100%",
@@ -19,6 +29,7 @@ export const useStyles = makeStyles((ctx) => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      
     },
     
     messageLeft: {      
@@ -27,7 +38,7 @@ export const useStyles = makeStyles((ctx) => {
       border: "none",
       padding: "10px",
       borderRadius: "5px",
-      backgroundColor: "#be4699",
+      backgroundColor: "#eab67a",
       width: "80%",
       gap: "10px",
       margin: "0 10px",
@@ -41,7 +52,7 @@ export const useStyles = makeStyles((ctx) => {
       border: "none",
       padding: "10px",
       borderRadius: "5px",
-      backgroundColor: "#46be46",
+      backgroundColor: "#b69479",
       width: "80%",      
       gap: "10px",
       margin: "0 10px",
