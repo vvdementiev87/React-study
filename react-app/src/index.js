@@ -1,59 +1,36 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import styles from "./index.module.css";
+import { MessageComponent } from "./components";
+import { List, ListItem, ThemeProvider, createTheme } from "@mui/material";
+import { useStyles } from "./style";
+import "./global.css";
 
 const AppComponent = () => {
-  const messages = [
-    {
-      author: "Michael",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2022, 0, 2),
-    },
-    {
-      author: "Fedor",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2021, 0, 1),
-    },
-    {
-      author: "Maga",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2001, 1, 12),
-    },
+  const styles = useStyles();
+  const chatList = [
+    { id: 1, name: "one" },
+    { id: 2, name: "two" },
+    { id: 3, name: "three" },
   ];
-  return <MessageComponent messages={messages} />;
+  return (
+  <div className={styles.main}>
+    <List className={styles.chatList} >
+      {chatList.map((chart) => (
+        <ListItem key={chart.id}>{chart.name}</ListItem>
+      ))}
+    </List>
+    <MessageComponent />
+  </div>
+  );
 };
 
-function MessageComponent({ messages }) {
-  const timeOptions = {
-    era: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  };
-  return (
-    <div className={styles.messages}>
-      {messages.map((message, id) => {
-        return (
-          <div data-id={id} className={styles.message}>
-            <h2>Message number {id + 1}:</h2>
-            <p>Author: {message.author}</p>
-            <p>{message.text}</p>
-            <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+const theme = createTheme();
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppComponent />
+    <ThemeProvider theme={theme}>
+      <AppComponent />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
