@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles((ctx) => {
-  console.log("Ctx 1",ctx);
+  console.log("Chat-pages", ctx);
   return {
     /* Used colors:
          #ece8e3
@@ -17,7 +17,7 @@ export const useStyles = makeStyles((ctx) => {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "flex-start",
-      minHeight:"100vh",
-    }
+      minHeight: "100vh",
+    },
   };
 });
