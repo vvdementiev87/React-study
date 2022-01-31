@@ -1,59 +1,64 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import styles from "./index.module.css";
+import { Header, ChatPage } from "./components"; /* MessageComponent, */
+/* ChatList, */
+/* ChatPage,
+  ProfilePage, */
+import { ThemeProvider, createTheme } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const AppComponent = () => {
-  const messages = [
-    {
-      author: "Michael",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2022, 0, 2),
-    },
-    {
-      author: "Fedor",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2021, 0, 1),
-    },
-    {
-      author: "Maga",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2001, 1, 12),
-    },
-  ];
-  return <MessageComponent messages={messages} />;
-};
+import "./global.css";
 
-function MessageComponent({ messages }) {
-  const timeOptions = {
-    era: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  };
+/* const AppComponent = () => {
+  const styles = useStyles();
+
   return (
-    <div className={styles.messages}>
-      {messages.map((message, id) => {
-        return (
-          <div data-id={id} className={styles.message}>
-            <h2>Message number {id + 1}:</h2>
-            <p>Author: {message.author}</p>
-            <p>{message.text}</p>
-            <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-          </div>
-        );
-      })}
+    <div className={styles.main}>
+      {<ChatList />}
+      {<MessageComponent />}
     </div>
   );
-}
+}; */
+
+const theme = createTheme({
+  /* Used colors:
+         #ece8e3
+        #f1e0b1
+        #eab67a
+        #b69479
+        #908373
+        #8e9e82 */
+  palette: {
+    primary: {
+      main: "#8e9e82",
+      dark: "#f1e0b1",
+      light: "#eab67a",
+    },
+    secondary: {
+      main: "#b69479",
+      dark: "#908373",
+      light: "#ece8e3",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppComponent />
+    <ThemeProvider theme={theme}>
+      {/* <AppComponent /> */}
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route
+            path="/profile"
+            element={/* <ProfilePage /> */ <h1>Profil page</h1>}
+          />
+          <Route path="/chat/*" element={<ChatPage />} />
+          <Route path="/" element={<h1>Home page</h1>} />
+          <Route path="/*" element={<h1>404</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
