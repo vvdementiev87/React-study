@@ -13,7 +13,7 @@ export const ChatList = () => {
   return (
     <List component="nav" className={styles.chatList}>
       {chatList.map((chat) => (
-        <Link key={chat} to={`/chat/${chat}`}>
+        <Link key={chat} to={`/chat/${chat}`} className={styles.chatItem}>
           <Chat title={chat} selected={roomId === chat} />
         </Link>
       ))}

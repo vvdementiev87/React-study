@@ -10,6 +10,10 @@ export const useStyles = makeStyles((ctx) => {
       border: "none",
       borderRadius: "5px",
       backgroundColor: "#8e9e82",
+      textDecoration:"none",
+    },
+    chatItem:{
+      textDecoration:"none",
     }
   };
 });

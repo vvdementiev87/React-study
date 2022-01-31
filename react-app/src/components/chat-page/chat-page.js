@@ -24,7 +24,7 @@ export const ChatPage = () => {
           element={
             <Layout
               chats={<ChatList />}
-              messages={<h1 style={{ color: "#fff" }}>Выберите чат</h1>}
+              messages={<h1 style={{ color: "#000000" }}>Выберите чат</h1>}
             />
           }
         />
