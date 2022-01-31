@@ -15,6 +15,7 @@ export const useStyles = makeStyles((ctx) => {
       maxWidth: "1280px",
       padding: "20px 20px 0 20px",
       display: "flex",
+      
       justifyContent: "space-between",
       alignItems: "flex-start",
       minHeight: "100vh",

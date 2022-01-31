@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useStyles } from "./use-style";
-import { Button, Input, InputLabel } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 export const MessageComponent = () => {
@@ -71,16 +71,14 @@ export const MessageComponent = () => {
   }, [messageList, roomId, sendMessage]);
 
   const hadlePressInput = (event) => {
-    if (event.code === "Enter") {
-      sendMessage();
-    }
+    if (event.code === "Enter") {sendMessage(message)}
   };
 
   const messages = messageList[roomId] ?? [];
 
   return (
-    <div className={styles.messages}>
-      <div className={styles.messagesList} ref={ref}>
+    <div className={styles.messages}  ref={ref}>
+      <div className={styles.messagesList}>
         {messages.map((message, id) => (
           <div
             key={id}
@@ -99,7 +97,6 @@ export const MessageComponent = () => {
         ))}
       </div>
       <div className={styles.messagesInput}>
-        <InputLabel htmlFor="messageId">Input message: </InputLabel>
         <Input
           id="messageId"
           onChange={(event) => setMessage(event.target.value)}

@@ -16,8 +16,7 @@ export function Chat({ title, selected, handleListItemClick }) {
         <AccountCircle fontSize="large" className={styles.icon} />
       </ListItemIcon>
       <div className={styles.description}>
-        <ListItemText className={styles.text} primary={title} />
-        <ListItemText className={styles.text} primary="12.30" />
+        <ListItemText className={styles.text} primary={title} />        
       </div>
     </ListItem>
   );

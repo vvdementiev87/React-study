@@ -23,7 +23,7 @@ export const useStyles = makeStyles((ctx) => {
     },
     messagesInput: {
       width: "100%",
-      maxWidth: "1024px",
+      maxWidth: "800px",
       padding: "20px 0",
       display: "flex",
       justifyContent: "space-between",
