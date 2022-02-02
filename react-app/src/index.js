@@ -11,7 +11,7 @@ import { store } from "./store";
 import "./global.css";
 
 const AppComponent = () => {
-  const state = useSelector((state) => state);
+  const state = useSelector((state) => state.profile);
   const darkTheme = {
     palette: {
       primary: {

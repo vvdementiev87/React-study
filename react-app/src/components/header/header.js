@@ -23,7 +23,7 @@ const pages = [
 
 export const Header = () => {
   const styles = useStyles();
-  const state = useSelector((state) => state);
+  const state = useSelector((state) => state.profile);
   /* const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

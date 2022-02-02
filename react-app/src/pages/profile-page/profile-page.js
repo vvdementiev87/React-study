@@ -13,7 +13,7 @@ export const ProfilePage = () => {
     lastName,
     phone,
     ...profile
-  } = useSelector((state) => state);
+  } = useSelector((state) => state.profile);
 
   const dispatch = useDispatch();
   return (

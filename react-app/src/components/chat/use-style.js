@@ -4,14 +4,16 @@ export const useStyles = makeStyles((ctx) => {
   console.log("Chat style", ctx);
   return {
     text: {
-      
-      color:"#ffffff",
+      color: "#ffffff",
       "& span": {
-        textDecoration:"none",
+        textDecoration: "none",
       },
     },
-    icon:{
-      width:"32px",
-    }
+    description: {
+      padding: "3px",
+    },
+    icon: {
+      width: "32px",
+    },
   };
 });

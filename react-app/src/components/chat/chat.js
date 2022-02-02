@@ -1,8 +1,19 @@
-import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import { AccountCircle } from "@mui/icons-material";
 import { useStyles } from "./use-style";
 
-export function Chat({ title, selected, handleListItemClick }) {
+export function Chat({
+  title,
+  selected,
+  handleListItemClick,
+  deleteConversationByName,
+}) {
   const styles = useStyles();
 
   return (
@@ -16,8 +27,16 @@ export function Chat({ title, selected, handleListItemClick }) {
         <AccountCircle fontSize="large" className={styles.icon} />
       </ListItemIcon>
       <div className={styles.description}>
-        <ListItemText className={styles.text} primary={title} />        
+        <ListItemText className={styles.text} primary={title} />
       </div>
+      <IconButton
+        aria-label="delete"
+        size="small"
+        color="error"
+        onClick={() => deleteConversationByName(title)}
+      >
+        <Delete fontSize="inherit" />
+      </IconButton>
     </ListItem>
   );
 }
