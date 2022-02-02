@@ -1,17 +1,27 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { themeChange } from "../../store/profile";
+import { ProfileForm } from "../../components";
+import { themeChange, toggleVisibleProfile } from "../../store/profile";
 import { useStyles } from "./use-style";
 
 export const ProfilePage = () => {
   const styles = useStyles();
-  const state = useSelector((state) => state);
+  const {
+    isVisibleProfile,
+    isDarkTheme,
+    firstName,
+    lastName,
+    phone,
+    ...profile
+  } = useSelector((state) => state);
+
   const dispatch = useDispatch();
   return (
     <div className={styles.main}>
       <h1>Profile Page</h1>
-      <p>Firstname: {state.firstName}</p>
-      <p>Lastname: {state.lastName}</p>
+      <p>Firstname: {firstName}</p>
+      <p>Lastname: {lastName}</p>
+      <p>Phone number: {phone}</p>
       <FormGroup>
         <FormControlLabel
           control={
@@ -22,9 +32,28 @@ export const ProfilePage = () => {
               }}
             />
           }
-          label={`Checkbox for theme change = ${state.isDarkTheme}`}
+          label={`Checkbox for theme change = ${isDarkTheme}`}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              defaultChecked
+              onChange={() => {
+                dispatch(toggleVisibleProfile());
+              }}
+            />
+          }
+          label={`Checkbox for visibility of profile form = ${isVisibleProfile}`}
         />
       </FormGroup>
+      {isVisibleProfile && (
+        <ProfileForm
+          firstName={firstName}
+          lastName={lastName}
+          phone={phone}
+          {...profile}
+        />
+      )}
     </div>
   );
 };
