@@ -1,19 +1,30 @@
-
-import { Checkbox } from "@mui/material";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import {themeChange} from "../../store/profile"
-
+import { themeChange } from "../../store/profile";
+import { useStyles } from "./use-style";
 
 export const ProfilePage = () => {
-  const state=useSelector(state=>state);
-  const dispatch=useDispatch();
+  const styles = useStyles();
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   return (
-    <div>
+    <div className={styles.main}>
       <h1>Profile Page</h1>
       <p>Firstname: {state.firstName}</p>
       <p>Lastname: {state.lastName}</p>
-      <Checkbox onChange={()=>{console.log(state.isDarkTheme);dispatch(themeChange())}}></Checkbox>
-      
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              defaultChecked
+              onChange={() => {
+                dispatch(themeChange());
+              }}
+            />
+          }
+          label={`Checkbox for theme change = ${state.isDarkTheme}`}
+        />
+      </FormGroup>
     </div>
   );
 };

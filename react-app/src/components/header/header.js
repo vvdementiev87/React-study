@@ -7,7 +7,11 @@ import {
   Typography,
   Container,
   Button,
+  Tooltip,
+  IconButton,
+  Avatar,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import { useStyles } from "./use-style";
 
 const pages = [
@@ -19,6 +23,7 @@ const pages = [
 
 export const Header = () => {
   const styles = useStyles();
+  const state = useSelector((state) => state);
   /* const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -63,13 +68,13 @@ export const Header = () => {
             ))}
           </Box>
 
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Box>
+            <Tooltip title={state.firstName + " " + state.lastName}>
+              <IconButton /* onClick={handleOpenUserMenu} */>
+                <Avatar alt="W" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            <Menu
+            {/* <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -90,8 +95,8 @@ export const Header = () => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
-          </Box> */}
+            </Menu> */}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
