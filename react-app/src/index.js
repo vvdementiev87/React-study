@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Header, ChatPage } from "./components"; /* MessageComponent, */
-/* ChatList, */
-/* ChatPage,
-  ProfilePage, */
+import { Header, ChatPage } from "./components";
+import { ProfilePage } from "./pages";
+import {Provider} from "react-redux"
 import { ThemeProvider, createTheme } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {store} from "./store";
 
 import "./global.css";
 
@@ -44,14 +44,15 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
       {/* <AppComponent /> */}
       <BrowserRouter>
         <Header />
         <Routes>
           <Route
             path="/profile"
-            element={/* <ProfilePage /> */ <h1>Profil page</h1>}
+            element={<ProfilePage />}
           />
           <Route path="/chat/*" element={<ChatPage />} />
           <Route path="/" element={<h1>Home page</h1>} />
@@ -59,6 +60,7 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
