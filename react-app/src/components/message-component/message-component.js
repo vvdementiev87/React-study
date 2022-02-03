@@ -2,51 +2,27 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useStyles } from "./use-style";
 import { Button, Input } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { sendMessage, deleteMessage } from "../../store/messages";
+import { messagesSelectorByRoomId } from "../../store/messages";
 
 export const MessageComponent = () => {
-  const timeOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  };
-  const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState({
-    room1: [
-      { author: "User", text: "value 1", date: new Date() },
-      { author: "Bot", text: "value 2", date: new Date() },
-    ],
-    room2: [
-      { author: "User", text: "value 1", date: new Date() },
-      { author: "Bot", text: "value 2", date: new Date() },
-    ],
-    room3: [
-      { author: "User", text: "value 1", date: new Date() },
-      { author: "Bot", text: "value 2", date: new Date() },
-    ],
-  });
   const styles = useStyles();
   const { roomId } = useParams();
   const ref = useRef(null);
+  const [message, setMessage] = useState("");
 
-  const sendMessage = useCallback(
+  const dispatch = useDispatch();
+  const messages = useSelector(messagesSelectorByRoomId(roomId));
+
+  const send = useCallback(
     (message, author = "User") => {
       if (message) {
-        console.log(message);
-        setMessageList((state) => ({
-          ...state,
-          [roomId]: [
-            ...(state[roomId] ?? []),
-            { author, text: message, date: new Date() },
-          ],
-        }));
-
+        dispatch(sendMessage(roomId, { author: author, text: message }));
         setMessage("");
       }
     },
-    [roomId]
+    [dispatch, roomId]
   );
 
   const handleScrollBottom = useCallback(() => {
@@ -57,31 +33,20 @@ export const MessageComponent = () => {
 
   useEffect(() => {
     handleScrollBottom();
-  }, [messageList, handleScrollBottom]);
-
-  useEffect(() => {
-    const messages = messageList[roomId] ?? [];
-    const lastMessage = messages[messages.length - 1];
-
-    if (messages.length && lastMessage.author === "User") {
-      setTimeout(() => {
-        sendMessage("bot message", "Bot");
-      }, 500);
-    }
-  }, [messageList, roomId, sendMessage]);
+  }, [messages, handleScrollBottom]);
 
   const hadlePressInput = (event) => {
-    if (event.code === "Enter") {sendMessage(message)}
+    if (event.code === "Enter") {
+      sendMessage(message);
+    }
   };
 
-  const messages = messageList[roomId] ?? [];
-
   return (
-    <div className={styles.messages}  ref={ref}>
+    <div className={styles.messages} ref={ref}>
       <div className={styles.messagesList}>
-        {messages.map((message, id) => (
+        {messages.map((message) => (
           <div
-            key={id}
+            key={message.id}
             className={
               message.author === "Bot"
                 ? styles.messageLeft
@@ -90,9 +55,12 @@ export const MessageComponent = () => {
           >
             <p className={styles.messageText}>{message.author}</p>
             <p>{message.text}</p>
-            <p className={styles.messageText}>
-              {message.date.toLocaleString("ru", timeOptions)}
-            </p>
+            {/* <p className={styles.messageText}>{message?.date}</p> */}
+            <button
+              onClick={() => dispatch(deleteMessage(roomId, message?.id))}
+            >
+              x
+            </button>
           </div>
         ))}
       </div>
@@ -105,7 +73,7 @@ export const MessageComponent = () => {
           fullWidth
           onKeyPress={hadlePressInput}
         />
-        <Button onClick={() => sendMessage(message)}>Send</Button>
+        <Button onClick={() => send(message)}>Send</Button>
       </div>
     </div>
   );

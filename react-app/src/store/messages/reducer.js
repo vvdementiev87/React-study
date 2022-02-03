@@ -1,35 +1,56 @@
-import { CREATE_CONVERSATION, DELETE_CONVERSATION } from "./types";
+import { nanoid } from "nanoid";
+import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID } from "./types";
 
 const initialState = {
-  room1: [
-    { author: "User", text: "value 1", date: new Date() },
-    { author: "Bot", text: "value 2", date: new Date() },
-  ],
-  room2: [
-    { author: "User", text: "value 1", date: new Date() },
-    { author: "Bot", text: "value 2", date: new Date() },
-  ],
-  room3: [
-    { author: "User", text: "value 1", date: new Date() },
-    { author: "Bot", text: "value 2", date: new Date() },
-  ],
+  messages: {
+    room1: [
+      { author: "User", text: "value 1", date: new Date(), id: nanoid() },
+      { author: "Bot", text: "value 2", date: new Date(), id: nanoid() },
+    ],
+    room2: [
+      { author: "User", text: "value 1", date: new Date(), id: nanoid() },
+      { author: "Bot", text: "value 2", date: new Date(), id: nanoid() },
+    ],
+    room3: [
+      { author: "User", text: "value 1", date: new Date(), id: nanoid() },
+      { author: "Bot", text: "value 2", date: new Date(), id: nanoid() },
+    ],
+  },
 };
 
-export const conversationsReducer = (state = initialState, action) => {
+export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_CONVERSATION:
+    case SEND_MESSAGE:
       return {
         ...state,
-        conversations: [...state.conversations, action.payload],
+        messages: {
+          ...state.messages,
+          [action.payload.roomId]: [
+            ...(state.messages[action.payload.roomId] ?? []),
+            {
+              ...action.payload.message,
+              id: nanoid(),
+              date: new Date(),
+            },
+          ],
+        },
       };
-    case DELETE_CONVERSATION:
+    case DELETE_MESSAGE_BY_ID:
       return {
         ...state,
-        conversations: [
-          ...state.conversations.filter(
-            (conversation) => conversation !== action.payload
-          ),
-        ],
+        messages: {
+          ...state.messages,
+          [action.payload.roomId]: [
+            state.messages[action.payload.roomId].filter(
+              (message) => message.id !== action.payload.messageId
+            ),
+            {
+              ...action.payload.message,
+              id: nanoid(),
+              date: new Date(),
+            },
+          ],
+        },
       };
     default:
       return state;
