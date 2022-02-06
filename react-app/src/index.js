@@ -1,59 +1,55 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import styles from "./index.module.css";
+import { useSelector } from "react-redux";
+import { Header } from "./components";
+import { ProfilePage, ChatPage } from "./pages";
+import { Provider } from "react-redux";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { store } from "./store";
+
+import "./global.css";
 
 const AppComponent = () => {
-  const messages = [
-    {
-      author: "Michael",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2022, 0, 2),
+  const state = useSelector((state) => state.profile);
+  const darkTheme = {
+    palette: {
+      primary: {
+        main: "#8e9e82",
+        dark: "#f1e0b1",
+        light: "#eab67a",
+      },
+      secondary: {
+        main: "#b69479",
+        dark: "#908373",
+        light: "#ece8e3",
+      },
     },
-    {
-      author: "Fedor",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2021, 0, 1),
-    },
-    {
-      author: "Maga",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2001, 1, 12),
-    },
-  ];
-  return <MessageComponent messages={messages} />;
-};
-
-function MessageComponent({ messages }) {
-  const timeOptions = {
-    era: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
   };
+  const theme = createTheme(state.isDarkTheme ? darkTheme : {});
+
   return (
-    <div className={styles.messages}>
-      {messages.map((message, id) => {
-        return (
-          <div data-id={id} className={styles.message}>
-            <h2>Message number {id + 1}:</h2>
-            <p>Author: {message.author}</p>
-            <p>{message.text}</p>
-            <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-          </div>
-        );
-      })}
+    <div>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/chat/*" element={<ChatPage />} />
+            <Route path="/" element={<h1>Home page</h1>} />
+            <Route path="/*" element={<h1>404</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
-}
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppComponent />
+    <Provider store={store}>
+      <AppComponent />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
