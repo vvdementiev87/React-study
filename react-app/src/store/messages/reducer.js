@@ -40,16 +40,9 @@ export const messagesReducer = (state = initialState, action) => {
         ...state,
         messages: {
           ...state.messages,
-          [action.payload.roomId]: [
-            state.messages[action.payload.roomId].filter(
-              (message) => message.id !== action.payload.messageId
-            ),
-            {
-              ...action.payload.message,
-              id: nanoid(),
-              date: new Date(),
-            },
-          ],
+          [action.payload.roomId]: state.messages[action.payload.roomId].filter(
+            (message) => message.id !== action.payload.messageId
+          ),
         },
       };
     default:

@@ -4,3 +4,4 @@ export * from "./header";
 export * from "./layout";
 export * from "./chat";
 export * from "./profile-form";
+export * from "./message";

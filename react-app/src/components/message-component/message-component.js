@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useStyles } from "./use-style";
+import { Message } from "../message";
 import { Button, Input } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMessage, deleteMessage } from "../../store/messages";
+import { sendMessage } from "../../store/messages";
 import { messagesSelectorByRoomId } from "../../store/messages";
 
 export const MessageComponent = () => {
@@ -44,24 +45,8 @@ export const MessageComponent = () => {
   return (
     <div className={styles.messages} ref={ref}>
       <div className={styles.messagesList}>
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={
-              message.author === "Bot"
-                ? styles.messageLeft
-                : styles.messageRight
-            }
-          >
-            <p className={styles.messageText}>{message.author}</p>
-            <p>{message.text}</p>
-            {/* <p className={styles.messageText}>{message?.date}</p> */}
-            <button
-              onClick={() => dispatch(deleteMessage(roomId, message?.id))}
-            >
-              x
-            </button>
-          </div>
+        {messages.map((message, index) => (
+          <Message key={index} message={message} roomId={roomId} />
         ))}
       </div>
       <div className={styles.messagesInput}>
