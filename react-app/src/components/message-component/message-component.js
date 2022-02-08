@@ -4,7 +4,7 @@ import { Message } from "../message";
 import { Button, Input } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMessage } from "../../store/messages";
+import { sendMessageWithBot } from "../../store/messages";
 import { messagesSelectorByRoomId } from "../../store/messages";
 
 export const MessageComponent = () => {
@@ -19,7 +19,7 @@ export const MessageComponent = () => {
   const send = useCallback(
     (message, author = "User") => {
       if (message) {
-        dispatch(sendMessage(roomId, { author: author, text: message }));
+        dispatch(sendMessageWithBot(roomId, { author: author, text: message }));
         setMessage("");
       }
     },
@@ -38,7 +38,7 @@ export const MessageComponent = () => {
 
   const hadlePressInput = (event) => {
     if (event.code === "Enter") {
-      sendMessage(message);
+      sendMessageWithBot(message);
     }
   };
 

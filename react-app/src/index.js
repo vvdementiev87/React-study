@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import { Header } from "./components";
 import { ProfilePage, ChatPage } from "./pages";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { store } from "./store";
+import { store, persistor } from "./store";
 
 import "./global.css";
 
@@ -48,7 +49,9 @@ const AppComponent = () => {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AppComponent />
+      <PersistGate persistor={persistor}>
+        <AppComponent />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
