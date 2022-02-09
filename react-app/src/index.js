@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 import { Header } from "./components";
-import { ProfilePage, ChatPage } from "./pages";
+import { ProfilePage, ChatPage, GistsPage } from "./pages";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -37,6 +37,7 @@ const AppComponent = () => {
           <Routes>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/chat/*" element={<ChatPage />} />
+            <Route path="/gists/*" element={<GistsPage />} />
             <Route path="/" element={<h1>Home page</h1>} />
             <Route path="/*" element={<h1>404</h1>} />
           </Routes>

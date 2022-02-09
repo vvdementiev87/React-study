@@ -18,29 +18,12 @@ const pages = [
   { title: "Home", to: "/" },
   { title: "Chat", to: "/chat" },
   { title: "Profile", to: "/profile" },
+  { title: "Gists", to: "/gists" },
 ];
-/* const settings = ["Home", "Chat", "Dashboard", "Logout"]; */
 
 export const Header = () => {
   const styles = useStyles();
   const state = useSelector((state) => state.profile);
-  /* const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  }; */
 
   return (
     <AppBar position="static">
