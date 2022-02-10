@@ -6,6 +6,7 @@ import { messagesReducer } from "./messages";
 import { logger, timeScheduler, botMessage } from "./middlewares";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
+import { getPublicGistsApi } from "../api/gists";
 
 const persistConfig = {
   key: "root",
@@ -23,7 +24,12 @@ export const persistedReduser = persistReducer(persistConfig, reducer);
 export const store = createStore(
   persistedReduser,
   compose(
-    applyMiddleware(logger, timeScheduler, botMessage, thunk),
+    applyMiddleware(
+      logger,
+      timeScheduler,
+      botMessage,
+      thunk.withExtraArgument({ getPublicGistsApi })
+    ),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : (args) => args
