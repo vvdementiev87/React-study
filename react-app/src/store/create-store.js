@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { profileReducer } from "./profile";
 import { conversationsReducer } from "./conversations";
 import { messagesReducer } from "./messages";
+import { gistsReducer } from "./gists";
 import { logger, timeScheduler, botMessage } from "./middlewares";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   profile: profileReducer,
   conversations: conversationsReducer,
   messages: messagesReducer,
+  gists: gistsReducer,
 });
 
 export const persistedReduser = persistReducer(persistConfig, reducer);
