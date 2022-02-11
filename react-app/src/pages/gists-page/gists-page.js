@@ -1,22 +1,21 @@
 import { useStyles } from "./use-style";
 import { useEffect, useState } from "react";
-import { getGists, getGistsByUser, gistsSelector } from "../../store/gists";
+import { getGists, gistsSelector } from "../../store/gists";
 import { useDispatch, useSelector } from "react-redux";
 
 export const GistsPage = () => {
   const styles = useStyles();
   const [count, setCount] = useState("1");
-  const [name, setName] = useState("");
-  const dispatch = useDispatch();
-  const { gists, pending, error } = useSelector(gistsSelector());
-  const handleChange = (event) => {
-    setName(event.target.value);
-  };
 
+  const dispatch = useDispatch();
+  const { pending, error } = useSelector(gistsSelector());
+  
+  console.log("Selector", useSelector(gistsSelector()));
+  console.log("Count",count );
   useEffect(() => {
-    /* dispatch(getGists(count)); */
-    dispatch(getGistsByUser(name));
-  }, [dispatch, count, name]);
+    
+    dispatch(getGists(count));
+  }, [dispatch, count]);
 
   if (pending) {
     return (
@@ -34,7 +33,7 @@ export const GistsPage = () => {
   }
 
   return (
-    <div>
+    
       <div className={styles.main}>
         <button
           onClick={() => {
@@ -50,33 +49,7 @@ export const GistsPage = () => {
           }}
         >
           next
-        </button>
-        {gists?.map((gist, index) => (
-          <div key={index} className={styles.text}>
-            <p>{index}</p>
-            <p>{gist.url}</p>
-            <p>{gist.description}</p>
-          </div>
-        ))}
+        </button>                
       </div>
-      <div className={styles.main}>
-        <input type="text" value={name}></input>
-        <button
-          onClick={() => {
-            handleChange();
-          }}
-        >
-          prev
-        </button>
-
-        {gists?.map((gist, index) => (
-          <div key={index} className={styles.text}>
-            <p>{index}</p>
-            <p>{gist.url}</p>
-            <p>{gist.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 };
