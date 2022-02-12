@@ -37,7 +37,7 @@ const AppComponent = () => {
           <Routes>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/chat/*" element={<ChatPage />} />
-            <Route path="/gists/*" element={<GistsPage />} />
+            <Route path="/gists/*" element={{/* <GistsPage /> */}} />
             <Route path="/" element={<h1>Home page</h1>} />
             <Route path="/*" element={<h1>404</h1>} />
           </Routes>

@@ -1,46 +1,40 @@
 import { useStyles } from "./use-style";
 import { useEffect, useState } from "react";
-import { getGists, searchGists, gistsSelector } from "../../store/gists";
+import { getGists, gistsSelector } from "../../store/gists";
 import { useDispatch, useSelector } from "react-redux";
-import debounce from "lodash.debounce";
-
-const searchGistsDebounced = debounce((query, dispatch) => {
-  dispatch(searchGists(query));
-}, 1000);
 
 export const GistsPage = () => {
   const styles = useStyles();
-  const [count, setCount] = useState(1);
-  const [value, setValue] = useState("bogdanq");
+  const [count, setCount] = useState("1");
+
   const dispatch = useDispatch();
-  const { gists, pending, error } = useSelector(gistsSelector());
-  const { gistsSearch, errorSearch, pendingSearch } = useSelector(
-    gistsSelector()
-  );
-
-  console.log("gistsSearch", gistsSearch);
-
+  const { pending, error } = useSelector(gistsSelector());
+  
+  console.log("Selector", useSelector(gistsSelector()));
+  console.log("Count",count );
   useEffect(() => {
+    
     dispatch(getGists(count));
   }, [dispatch, count]);
 
-  useEffect(() => {
-    searchGistsDebounced(value, dispatch);
-  }, [dispatch, value]);
-
-  if (pending || pendingSearch) {
+  if (pending) {
     return (
       <div className={styles.main}>
-        <p>pending....</p>
+        <p>Pending...</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className={styles.main}>
+        <p>Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className={styles.main}>
-      <div>{!!error && "Error"}</div>
-      <div>{!!errorSearch && "ErrorSearch"}</div>
-      <div>
+    
+      <div className={styles.main}>
         <button
           onClick={() => {
             setCount(count - 1);
@@ -55,31 +49,7 @@ export const GistsPage = () => {
           }}
         >
           next
-        </button>
-
-        {gists?.map((gist, index) => (
-          <div key={index} className={styles.text}>
-            <p>{index + 1}</p>
-            <p>{gist.url}</p>
-            <p>{gist.description}</p>
-          </div>
-        ))}
+        </button>                
       </div>
-      <div>
-        <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="enter name"
-        />
-
-        {gistsSearch?.map((gist, index) => (
-          <div key={index} className={styles.text}>
-            <p>{index + 1}</p>
-            <p>{gist.url}</p>
-            <p>{gist.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 };

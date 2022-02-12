@@ -1,3 +1,3 @@
-export const gistsSelector = () => (state) => {
+export const gistsSelector = ()=>(state) => {
   return state.gists || [];
 };
