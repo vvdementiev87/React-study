@@ -1,9 +1,20 @@
-import { GET_GISTS_ERROR, GET_GISTS_START, GET_GISTS_SUCCESS } from "./types";
+import {
+  GET_GISTS_ERROR,
+  GET_GISTS_START,
+  GET_GISTS_SUCCESS,
+  SEARCH_GISTS_START,
+  SEARCH_GISTS_SUCCESS,
+  SEARCH_GISTS_ERROR,
+} from "./types";
 
 const initialState = {
   gists: [],
   error: null,
   pending: false,
+
+  gistsSearch: [],
+  errorSearch: null,
+  pendingSearch: false,
 };
 
 export const gistsReducer = (state = initialState, action) => {
@@ -25,6 +36,25 @@ export const gistsReducer = (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload,
+      };
+
+    case SEARCH_GISTS_START:
+      return {
+        ...state,
+        pendingSearch: true,
+        errorSearch: null,
+      };
+    case SEARCH_GISTS_SUCCESS:
+      return {
+        ...state,
+        pendingSearch: false,
+        gistsSearch: action.payload,
+      };
+    case SEARCH_GISTS_ERROR:
+      return {
+        ...state,
+        pendingSearch: false,
+        errorSearch: action.payload,
       };
     default:
       return state;
