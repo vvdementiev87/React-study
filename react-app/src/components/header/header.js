@@ -13,17 +13,38 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useStyles } from "./use-style";
+import { getAuth, signOut } from "firebase/auth";
+import { firebaseApp } from "../../api/firebase";
 
-const pages = [
-  { title: "Home", to: "/" },
+const pages = [{ title: "Home", to: "/" }];
+const pagesWithSession = [
   { title: "Chat", to: "/chat" },
   { title: "Profile", to: "/profile" },
   { title: "Gists", to: "/gists" },
 ];
+const pagesWithoutSession = [
+  { title: "Login", to: "/login" },
+  { title: "Sign-up", to: "/sign-up" },
+];
 
-export const Header = () => {
+export const Header = (props) => {
+  const { isAuth } = props;
   const styles = useStyles();
   const state = useSelector((state) => state.profile);
+  console.log("header auth", props);
+  const onSubmit = () => {
+    const auth = getAuth(firebaseApp);
+    return signOut(auth)
+      .then((userCredential) => {
+        console.log("signed out");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("errorCode", errorCode);
+        console.log("errorMessage", errorMessage);
+      });
+  };
 
   return (
     <AppBar position="static">
@@ -49,9 +70,42 @@ export const Header = () => {
                 </Link>
               </Button>
             ))}
+            {!!isAuth &&
+              pagesWithSession.map((page) => (
+                <Button
+                  key={page.title}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  <Link className={styles.link} to={page.to}>
+                    {page.title}
+                  </Link>
+                </Button>
+              ))}
+            {!isAuth &&
+              pagesWithoutSession.map((page) => (
+                <Button
+                  key={page.title}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  <Link className={styles.link} to={page.to}>
+                    {page.title}
+                  </Link>
+                </Button>
+              ))}
           </Box>
 
-          <Box>
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "flex" } }}>
+            {!!isAuth && (
+              <Button
+                color="secondary"
+                onClick={() => {
+                  onSubmit();
+                }}
+              >
+                Sign Out
+              </Button>
+            )}
+
             <Tooltip title={state.firstName + " " + state.lastName}>
               <IconButton /* onClick={handleOpenUserMenu} */>
                 <Avatar alt="W" src="/static/images/avatar/2.jpg" />
