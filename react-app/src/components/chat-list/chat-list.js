@@ -8,6 +8,7 @@ import {
   deleteConversation,
 } from "../../store/conversations";
 import { useCallback } from "react";
+import { setConversations } from "../../api/conversation-api";
 
 export const ChatList = () => {
   const styles = useStyles();
@@ -25,6 +26,11 @@ export const ChatList = () => {
     const isValidName = !conversations.includes(name);
     if (name && isValidName) {
       dispatch(createConversation(name));
+      try {
+        setConversations(name);
+      } catch (e) {
+        console.log(e);
+      }
       console.log(name);
       console.log(conversations);
     } else {

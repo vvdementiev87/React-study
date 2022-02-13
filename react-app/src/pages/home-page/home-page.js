@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { getAuth, signOut } from "firebase/auth";
 import { firebaseApp } from "../../api/firebase";
+import { getConversations } from "../../api/conversation-api";
 
 const onSubmit = () => {
   const auth = getAuth(firebaseApp);
@@ -31,6 +32,13 @@ export function HomePage(props) {
           Sign Out
         </Button>
       )}
+      <Button
+        onClick={() => {
+          getConversations(props.userId);
+        }}
+      >
+        DB
+      </Button>
     </div>
   );
 }

@@ -37,8 +37,8 @@ const AppComponent = () => {
   }, []);
 
   const isAuth = !!session;
-
-  console.log(session);
+  const userId = session?.uid;
+  console.log("uid", session?.uid);
   console.log("console.log(isAuth);", isAuth);
 
   const darkTheme = {
@@ -61,7 +61,7 @@ const AppComponent = () => {
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Header session={session} isAuth={isAuth} />
+          <Header session={session} isAuth={isAuth} userId={"room2"} />
           <Routes>
             <Route
               path="/profile"
