@@ -3,7 +3,7 @@ import { firebaseDB } from "./firebase";
 
 export const getConversations = (conversationId) => {
   const dbRef = ref(firebaseDB);
-  console.log(dbRef);
+  console.log("getConversations dbRef",dbRef);
   get(child(dbRef, `conversations/${conversationId}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -13,17 +13,15 @@ export const getConversations = (conversationId) => {
       }
     })
     .catch((error) => {
-      console.error(error);
+      console.error("getConversations error",error);
     });
 };
 
-export const setConversations = (conversationId) => {
-  const dbSet = firebaseDB;
-  console.log(dbSet);
-  const dbRef = ref(dbSet, "conversations");
+export const setConversations = (conversationId) => {  
+  console.log("dbSet",firebaseDB);
+  const dbRef = ref(firebaseDB, `conversations`);
+  console.log("dbRef ", dbRef );  
   const newConversationRef = push(dbRef);
-  console.log("newConversationRef", newConversationRef);
-  set(newConversationRef, {
-    name: conversationId,
-  });
+  console.log("newConversationRef", newConversationRef);  
+  set(newConversationRef , conversationId);
 };
