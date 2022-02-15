@@ -4,35 +4,29 @@ import { useStyles } from "./use-style";
 import { Chat } from "../chat";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createConversation,
   deleteConversation,
+  conversationsSelector,
+  getConversationsFb,
+  createConversationsFb,
 } from "../../store/conversations";
-import { useCallback } from "react";
-import { setConversations } from "../../api/conversation-api";
+import { useCallback, useEffect } from "react";
 
 export const ChatList = () => {
   const styles = useStyles();
   const navigate = useNavigate();
-
   const { roomId } = useParams();
-
   const dispatch = useDispatch();
-
-  const conversations = useSelector(
-    (state) => state.conversations.conversations
+  const { conversations, pending, error } = useSelector(
+    conversationsSelector()
   );
+
+  console.log(conversations);
+
   const createConversationByButton = () => {
     const name = prompt("введите имя комнаты");
     const isValidName = !conversations.includes(name);
     if (name && isValidName) {
-      dispatch(createConversation(name));
-      try {
-        setConversations(name);
-      } catch (e) {
-        console.log(e);
-      }
-      console.log(name);
-      console.log(conversations);
+      dispatch(createConversationsFb(name));
     } else {
       alert("Невалидная комната");
     }
@@ -46,6 +40,18 @@ export const ChatList = () => {
     [dispatch, navigate]
   );
 
+  useEffect(() => {
+    dispatch(getConversationsFb());
+  }, [dispatch]);
+
+  if (pending) {
+    return (
+      <List component="nav" className={styles.chatList}>
+        <p>pending....</p>
+      </List>
+    );
+  }
+
   return (
     <List component="nav" className={styles.chatList}>
       <Button
@@ -55,11 +61,15 @@ export const ChatList = () => {
       >
         + Room
       </Button>
-      {conversations.map((chat) => (
-        <Link key={chat} to={`/chat/${chat}`} className={styles.chatItem}>
+      {conversations.map((chat, index) => (
+        <Link
+          key={index}
+          to={`/chat/${chat.title}`}
+          className={styles.chatItem}
+        >
           <Chat
-            title={chat}
-            selected={roomId === chat}
+            title={chat.title}
+            selected={roomId === chat.title}
             deleteConversationByName={deleteConversationByName}
           />
         </Link>

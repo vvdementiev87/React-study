@@ -1,7 +1,7 @@
 import { ref, child, get, set, push } from "firebase/database";
 import { firebaseDB } from "./firebase";
 
-export const getConversationsApi = async () => {
+export const getMessagesApi = async () => {
   const dbRef = ref(firebaseDB);
   console.log("getConversationsApi dbRef", dbRef);
   const result = await get(child(dbRef, `conversations`))
@@ -22,7 +22,7 @@ export const getConversationsApi = async () => {
   return result;
 };
 
-export const createConversationsApi = async (conversationId) => {
+export const createMessagesApi = async (conversationId) => {
   console.log("newConversationRef: firebaseDB", firebaseDB);
   const dbRef = ref(firebaseDB, `conversations`);
   console.log("newConversationRef: dbRef ", dbRef);

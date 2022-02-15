@@ -8,6 +8,10 @@ import { logger, timeScheduler, botMessage } from "./middlewares";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { getPublicGistsApi } from "../api/gists";
+import {
+  getConversationsApi,
+  createConversationsApi,
+} from "../api/conversation-api";
 
 const persistConfig = {
   key: "root",
@@ -30,7 +34,11 @@ export const store = createStore(
       logger,
       timeScheduler,
       botMessage,
-      thunk.withExtraArgument({ getPublicGistsApi })
+      thunk.withExtraArgument({
+        getPublicGistsApi,
+        getConversationsApi,
+        createConversationsApi,
+      })
     ),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()

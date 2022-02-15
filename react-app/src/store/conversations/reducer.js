@@ -1,7 +1,18 @@
-import { CREATE_CONVERSATION, DELETE_CONVERSATION } from "./types";
+import {
+  CREATE_CONVERSATION,
+  DELETE_CONVERSATION,
+  GET_CONVERSATIONS_ERROR,
+  GET_CONVERSATIONS_START,
+  GET_CONVERSATIONS_SUCCESS,
+  SET_CONVERSATIONS_START,
+  SET_CONVERSATIONS_SUCCESS,
+  SET_CONVERSATIONS_ERROR,
+} from "./types";
 
 const initialState = {
-  conversations: ["room1", "room2", "room3"],
+  conversations: [],
+  pending: false,
+  error: null,
 };
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -14,12 +25,27 @@ export const conversationsReducer = (state = initialState, action) => {
     case DELETE_CONVERSATION:
       return {
         ...state,
-        conversations: [
-          ...state.conversations.filter(
-            (conversation) => conversation !== action.payload
-          ),
-        ],
+        conversations: state.conversations.filter(
+          (conversation) => conversation !== action.payload
+        ),
       };
+    case GET_CONVERSATIONS_START:
+      return { ...state, pending: true, error: null };
+    case GET_CONVERSATIONS_SUCCESS:
+      return { ...state, pending: false, conversations: action.payload };
+    case GET_CONVERSATIONS_ERROR:
+      return { ...state, pending: false, error: action.payload };
+
+    case SET_CONVERSATIONS_START:
+      return { ...state, pending: true, error: null };
+    case SET_CONVERSATIONS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        conversations: [...state.conversations, action.payload],
+      };
+    case SET_CONVERSATIONS_ERROR:
+      return { ...state, pending: false, error: action.payload };
     default:
       return state;
   }
