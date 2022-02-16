@@ -7,6 +7,9 @@ import {
   SET_CONVERSATIONS_START,
   SET_CONVERSATIONS_SUCCESS,
   SET_CONVERSATIONS_ERROR,
+  DELETE_CONVERSATIONS_ERROR,
+  DELETE_CONVERSATIONS_START,
+  DELETE_CONVERSATIONS_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -46,6 +49,20 @@ export const conversationsReducer = (state = initialState, action) => {
       };
     case SET_CONVERSATIONS_ERROR:
       return { ...state, pending: false, error: action.payload };
+
+      case DELETE_CONVERSATIONS_START:
+        return { ...state, pending: true, error: null };
+      case DELETE_CONVERSATIONS_SUCCESS:
+        return {
+          ...state,
+          pending: false,
+          conversations: state.conversations.filter(
+            (conversation) => conversation?.id !== action.payload
+          ),          
+        };
+      case DELETE_CONVERSATIONS_ERROR:
+        return { ...state, pending: false, error: action.payload };
+
     default:
       return state;
   }

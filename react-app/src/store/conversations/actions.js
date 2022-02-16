@@ -7,6 +7,9 @@ import {
   SET_CONVERSATIONS_START,
   SET_CONVERSATIONS_SUCCESS,
   SET_CONVERSATIONS_ERROR,
+  DELETE_CONVERSATIONS_ERROR,
+  DELETE_CONVERSATIONS_START,
+  DELETE_CONVERSATIONS_SUCCESS
 } from "./types";
 
 export const createConversation = (conversation) => {
@@ -41,5 +44,20 @@ export const setConversationsSuccess = (conversation) => ({
 
 export const setConversationsError = (error) => ({
   type: SET_CONVERSATIONS_ERROR,
+  payload: error,
+});
+
+
+export const deleteConversationsStart = () => ({
+  type: DELETE_CONVERSATIONS_START,
+});
+
+export const deleteConversationsSuccess = (conversationId) => ({
+  type: DELETE_CONVERSATIONS_SUCCESS,
+  payload: conversationId,
+});
+
+export const deleteConversationsError = (error) => ({
+  type: DELETE_CONVERSATIONS_ERROR,
   payload: error,
 });

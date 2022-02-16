@@ -11,6 +11,7 @@ import { getPublicGistsApi } from "../api/gists";
 import {
   getConversationsApi,
   createConversationsApi,
+  removeConversationsApi
 } from "../api/conversation-api";
 
 const persistConfig = {
@@ -38,6 +39,7 @@ export const store = createStore(
         getPublicGistsApi,
         getConversationsApi,
         createConversationsApi,
+        removeConversationsApi
       })
     ),
     window.__REDUX_DEVTOOLS_EXTENSION__

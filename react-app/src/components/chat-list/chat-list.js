@@ -8,6 +8,7 @@ import {
   conversationsSelector,
   getConversationsFb,
   createConversationsFb,
+  deleteConversationsFb
 } from "../../store/conversations";
 import { useCallback, useEffect } from "react";
 
@@ -34,7 +35,7 @@ export const ChatList = () => {
 
   const deleteConversationByName = useCallback(
     (name) => {
-      dispatch(deleteConversation(name));
+      dispatch(deleteConversationsFb(name));
       setTimeout(() => navigate("/chat"), 100);
     },
     [dispatch, navigate]
@@ -68,6 +69,7 @@ export const ChatList = () => {
           className={styles.chatItem}
         >
           <Chat
+          id={chat.id}
             title={chat.title}
             selected={roomId === chat.title}
             deleteConversationByName={deleteConversationByName}

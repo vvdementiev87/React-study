@@ -14,3 +14,10 @@ export const SET_CONVERSATIONS_SUCCESS =
   "@conversations-api/SET conversations success";
 export const SET_CONVERSATIONS_ERROR =
   "@conversations-api/SET conversationserror";
+
+  export const DELETE_CONVERSATIONS_START =
+  "@conversations-api/DELETE conversations start";
+export const DELETE_CONVERSATIONS_SUCCESS =
+  "@conversations-api/SET conversations success";
+export const DELETE_CONVERSATIONS_ERROR =
+  "@conversations-api/DELETE conversationserror";

@@ -5,6 +5,9 @@ import {
   setConversationsStart,
   setConversationsSuccess,
   setConversationsError,
+  deleteConversationsError,
+  deleteConversationsStart,
+  deleteConversationsSuccess
 } from "./actions";
 
 export const getConversationsFb = () => async (dispatch, _, api) => {
@@ -35,5 +38,18 @@ export const createConversationsFb = (name) => async (dispatch, _, api) => {
     dispatch(setConversationsSuccess(conversation));
   } catch (e) {
     dispatch(setConversationsError(e));
+  }
+};
+
+export const deleteConversationsFb = (conversationId) => async (dispatch, _, api) => {
+  try {
+    dispatch(deleteConversationsStart());
+
+    await api.removeConversationsApi(conversationId);
+    console.log("deletetConversationsFb: conversation", conversationId);
+
+    dispatch(deleteConversationsSuccess(conversationId));
+  } catch (e) {
+    dispatch(deleteConversationsError(e));
   }
 };

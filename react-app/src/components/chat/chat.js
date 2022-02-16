@@ -9,6 +9,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { useStyles } from "./use-style";
 
 export function Chat({
+  id,
   title,
   selected,
   handleListItemClick,
@@ -33,7 +34,7 @@ export function Chat({
         aria-label="delete"
         size="small"
         color="error"
-        onClick={() => deleteConversationByName(title)}
+        onClick={() => deleteConversationByName(id)}
       >
         <Delete fontSize="inherit" />
       </IconButton>
