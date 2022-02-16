@@ -22,6 +22,8 @@ export const MessageComponent = () => {
     messagesSelectorByRoomId(roomId)
   );
 
+  console.log("messages", messages);
+
   const send = useCallback(
     (message, author = "User") => {
       if (message) {
@@ -51,8 +53,8 @@ export const MessageComponent = () => {
   };
 
   useEffect(() => {
-    dispatch(getMessagesFb(roomId));
-  }, [dispatch, roomId]);
+    dispatch(getMessagesFb());
+  }, [dispatch]);
 
   return (
     <div className={styles.messages} ref={ref}>

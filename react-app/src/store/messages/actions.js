@@ -42,9 +42,9 @@ export const setMessagesStart = () => ({
   type: SET_MESSAGES_START,
 });
 
-export const setMessagesSuccess = (message, roomId) => ({
+export const setMessagesSuccess = (roomId, message) => ({
   type: SET_MESSAGES_SUCCESS,
-  payload: { message, roomId },
+  payload: { roomId, message },
 });
 
 export const setMessagesError = (error) => ({
@@ -56,9 +56,9 @@ export const deleteMessagesStart = () => ({
   type: DELETE_MESSAGES_START,
 });
 
-export const deleteMessagesSuccess = (messageId, roomId) => ({
+export const deleteMessagesSuccess = (roomId, messageId) => ({
   type: DELETE_MESSAGES_SUCCESS,
-  payload: { messageId, roomId },
+  payload: { roomId, messageId },
 });
 
 export const deleteMessagesError = (error) => ({

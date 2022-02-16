@@ -59,6 +59,7 @@ export const messagesReducer = (state = initialState, action) => {
     case SET_MESSAGES_SUCCESS:
       return {
         ...state,
+        pending: false,
         messages: {
           ...state.messages,
           [action.payload.roomId]: [

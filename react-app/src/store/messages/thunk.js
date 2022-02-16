@@ -26,13 +26,15 @@ export const getMessagesFb = (roomId) => async (dispatch, _, api) => {
     dispatch(getMessagesStart());
 
     const snapshotFb = await api.getMessagesApi(roomId);
-    console.log("getConversationsFb: snapshotFb", snapshotFb);
+    console.log("getConversationsFb: snapshotFb", snapshotFb.val());
+
     if (snapshotFb.exists()) {
       snapshotFb.forEach((snap) => {
+        console.log(snap.val());
         messages.push(snap.val());
       });
     }
-
+    console.log(messages);
     dispatch(getMessagesSuccess(messages));
   } catch (e) {
     dispatch(getMessagesError(e));
@@ -40,14 +42,14 @@ export const getMessagesFb = (roomId) => async (dispatch, _, api) => {
 };
 
 export const createMessagesFb =
-  (message, roomId) => async (dispatch, _, api) => {
+  (roomId, message) => async (dispatch, _, api) => {
     try {
       dispatch(setMessagesStart());
 
-      const mes = await api.createMessagesApi(message, roomId);
-      console.log("setConversationsFb: conversation", mes);
+      const newMessage = await api.createMessagesApi(roomId, message);
+      console.log("setConversationsFb: conversation", newMessage);
 
-      dispatch(setMessagesSuccess(message, roomId));
+      dispatch(setMessagesSuccess(roomId, newMessage));
     } catch (e) {
       dispatch(setMessagesError(e));
     }

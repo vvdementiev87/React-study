@@ -28,6 +28,7 @@ export const createConversationsApi = async (conversationId) => {
     title: conversationId,
     value: "",
   };
+  updates["/messages/" + newConversationRef.key] = false;
   console.log("reateConversationsApi: newConversationRef", newConversationRef);
   const result = await update(dbRef, updates)
     .then(() => {
@@ -48,7 +49,9 @@ export const createConversationsApi = async (conversationId) => {
 export const removeConversationsApi = async (conversationId) => {
   console.log("newConversationRef: firebaseDB", firebaseDB);
   const dbRef = ref(firebaseDB, `conversations/${conversationId}`);
+  const dbRefM = ref(firebaseDB, `messages/${conversationId}`);
   console.log("newConversationRef: dbRef ", dbRef);
+  await remove(dbRefM);
   const result = await remove(dbRef)
     .then(() => {
       return "Success";

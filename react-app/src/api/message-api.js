@@ -2,10 +2,10 @@ import { ref, child, get, set, push, remove, update } from "firebase/database";
 import { nanoid } from "nanoid";
 import { firebaseDB } from "./firebase";
 
-export const getMessagesApi = async (roomId) => {
+export const getMessagesApi = async () => {
   const dbRef = ref(firebaseDB);
   console.log("getMessagesApi dbRef", dbRef);
-  const result = await get(child(dbRef, `messages/${roomId}`))
+  const result = await get(child(dbRef, `messages`))
     .then((snapshot) => {
       return snapshot;
     })
@@ -17,10 +17,15 @@ export const getMessagesApi = async (roomId) => {
   return result;
 };
 
-export const createMessagesApi = async (message, roomId) => {
-  const newMessage = { ...message, id: nanoid(), date: new Date() };
+export const createMessagesApi = async (roomId, message) => {
+  console.log("roomId", roomId);
+  const postListRef = ref(firebaseDB, `/messages/${roomId}`);
+  const newMessage = { ...message, id: nanoid(), date: String(new Date()) };
+  const newMessageRef = push(postListRef);
 
-  await push(child(ref(firebaseDB), roomId), newMessage).catch((error) => {
+  await set(newMessageRef, {
+    ...newMessage,
+  }).catch((error) => {
     console.error("createMessagesApi: error", error);
     return error;
   });
