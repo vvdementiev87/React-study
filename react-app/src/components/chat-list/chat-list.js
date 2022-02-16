@@ -65,13 +65,13 @@ export const ChatList = () => {
       {conversations.map((chat, index) => (
         <Link
           key={index}
-          to={`/chat/${chat.title}`}
+          to={`/chat/${chat.id}`}
           className={styles.chatItem}
         >
           <Chat
           id={chat.id}
             title={chat.title}
-            selected={roomId === chat.title}
+            selected={roomId === chat.id}
             deleteConversationByName={deleteConversationByName}
           />
         </Link>
