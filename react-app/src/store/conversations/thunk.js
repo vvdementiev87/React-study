@@ -18,9 +18,10 @@ export const getConversationsFb = () => async (dispatch, _, api) => {
 
     const snapshotFb = await api.getConversationsApi();
     console.log("getConversationsFb: snapshotFb", snapshotFb);
+    if (snapshotFb.exists()) {
     snapshotFb.forEach((snap) => {
       conversations.push(snap.val());
-    });
+    })};
 
     dispatch(getConversationsSuccess(conversations));
   } catch (e) {

@@ -5,14 +5,7 @@ export const getConversationsApi = async () => {
   const dbRef = ref(firebaseDB);
   console.log("getConversationsApi dbRef", dbRef);
   const result = await get(child(dbRef, `conversations`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log("getConversationsApi: data recieved", snapshot);
-        return snapshot;
-      } else {
-        console.log("getConversationsApi: No data available");
-        return {};
-      }
+    .then((snapshot) => {return snapshot     
     })
     .catch((error) => {
       console.error("getConversationsApi: error", error);
@@ -52,6 +45,6 @@ export const removeConversationsApi = async (conversationId) => {
     console.error("createConversationsApi: error", error);
     return error;
   });  
-
+console.log("result",result)
   return result;
 };

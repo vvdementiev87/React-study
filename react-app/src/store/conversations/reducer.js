@@ -57,7 +57,7 @@ export const conversationsReducer = (state = initialState, action) => {
           ...state,
           pending: false,
           conversations: state.conversations.filter(
-            (conversation) => conversation?.id !== action.payload
+            ({id}) => id !== action.payload
           ),          
         };
       case DELETE_CONVERSATIONS_ERROR:
