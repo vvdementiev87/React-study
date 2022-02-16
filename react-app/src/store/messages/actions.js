@@ -1,4 +1,17 @@
-import { SEND_MESSAGE, DELETE_MESSAGE_BY_ID,SET_MESSAGES_START,SET_MESSAGES_ERROR,SET_MESSAGES_SUCCESS,GET_MESSAGES_ERROR,GET_MESSAGES_START,GET_MESSAGES_SUCCESS,DELETE_MESSAGES_ERROR,DELETE_MESSAGES_START,DELETE_MESSAGES_SUCCESS } from "./types";
+import { messagesReducer } from ".";
+import {
+  SEND_MESSAGE,
+  DELETE_MESSAGE_BY_ID,
+  SET_MESSAGES_START,
+  SET_MESSAGES_ERROR,
+  SET_MESSAGES_SUCCESS,
+  GET_MESSAGES_ERROR,
+  GET_MESSAGES_START,
+  GET_MESSAGES_SUCCESS,
+  DELETE_MESSAGES_ERROR,
+  DELETE_MESSAGES_START,
+  DELETE_MESSAGES_SUCCESS,
+} from "./types";
 
 export const sendMessage = (roomId, message) => {
   return {
@@ -11,16 +24,13 @@ export const deleteMessage = (roomId, messageId) => {
   return { type: DELETE_MESSAGE_BY_ID, payload: { roomId, messageId } };
 };
 
-
-
-
 export const getMessagesStart = () => ({
   type: GET_MESSAGES_START,
 });
 
-export const getMessagesSuccess = (messages,conversationId) => ({
+export const getMessagesSuccess = (messages) => ({
   type: GET_MESSAGES_SUCCESS,
-  payload: {messages,conversationId}
+  payload: messages,
 });
 
 export const getMessagesError = (error) => ({
@@ -32,9 +42,9 @@ export const setMessagesStart = () => ({
   type: SET_MESSAGES_START,
 });
 
-export const setMessagesSuccess = (messages,conversationId) => ({
+export const setMessagesSuccess = (message, roomId) => ({
   type: SET_MESSAGES_SUCCESS,
-  payload: {messages,conversationId}
+  payload: { message, roomId },
 });
 
 export const setMessagesError = (error) => ({
@@ -42,14 +52,13 @@ export const setMessagesError = (error) => ({
   payload: error,
 });
 
-
 export const deleteMessagesStart = () => ({
   type: DELETE_MESSAGES_START,
 });
 
-export const deleteMessagesSuccess = (messageId,conversationId) => ({
+export const deleteMessagesSuccess = (messageId, roomId) => ({
   type: DELETE_MESSAGES_SUCCESS,
-  payload: {messageId,conversationId}
+  payload: { messageId, roomId },
 });
 
 export const deleteMessagesError = (error) => ({

@@ -11,8 +11,9 @@ import { getPublicGistsApi } from "../api/gists";
 import {
   getConversationsApi,
   createConversationsApi,
-  removeConversationsApi
+  removeConversationsApi,
 } from "../api/conversation-api";
+import { getMessagesApi, createMessagesApi } from "../api/message-api";
 
 const persistConfig = {
   key: "root",
@@ -39,7 +40,9 @@ export const store = createStore(
         getPublicGistsApi,
         getConversationsApi,
         createConversationsApi,
-        removeConversationsApi
+        removeConversationsApi,
+        getMessagesApi,
+        createMessagesApi,
       })
     ),
     window.__REDUX_DEVTOOLS_EXTENSION__

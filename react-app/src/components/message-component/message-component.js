@@ -4,7 +4,11 @@ import { Message } from "../message";
 import { Button, Input } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMessageWithBot } from "../../store/messages";
+import {
+  sendMessageWithBot,
+  getMessagesFb,
+  createMessagesFb,
+} from "../../store/messages";
 import { messagesSelectorByRoomId } from "../../store/messages";
 
 export const MessageComponent = () => {
@@ -14,12 +18,16 @@ export const MessageComponent = () => {
   const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
-  const messages = useSelector(messagesSelectorByRoomId(roomId));
+  const { messages, pending, error } = useSelector(
+    messagesSelectorByRoomId(roomId)
+  );
 
   const send = useCallback(
     (message, author = "User") => {
       if (message) {
-        dispatch(sendMessageWithBot(roomId, { author: author, text: message }));
+        dispatch(
+          createMessagesFb(roomId, { author: author || "Bot", message })
+        );
         setMessage("");
       }
     },
@@ -42,10 +50,14 @@ export const MessageComponent = () => {
     }
   };
 
+  useEffect(() => {
+    dispatch(getMessagesFb(roomId));
+  }, [dispatch, roomId]);
+
   return (
     <div className={styles.messages} ref={ref}>
       <div className={styles.messagesList}>
-        {messages.map((message, index) => (
+        {messages?.map((message, index) => (
           <Message key={index} message={message} roomId={roomId} />
         ))}
       </div>

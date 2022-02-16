@@ -1,50 +1,45 @@
-import { ref, child, get, set, push,remove } from "firebase/database";
+import { ref, child, get, set, push, remove, update } from "firebase/database";
+import { nanoid } from "nanoid";
 import { firebaseDB } from "./firebase";
 
-export const getConversationsApi = async () => {
+export const getMessagesApi = async (roomId) => {
   const dbRef = ref(firebaseDB);
-  console.log("getConversationsApi dbRef", dbRef);
-  const result = await get(child(dbRef, `conversations`))
-    .then((snapshot) => {return snapshot     
+  console.log("getMessagesApi dbRef", dbRef);
+  const result = await get(child(dbRef, `messages/${roomId}`))
+    .then((snapshot) => {
+      return snapshot;
     })
     .catch((error) => {
-      console.error("getConversationsApi: error", error);
+      console.error("getMessagesApi: error", error);
       return error;
     });
 
   return result;
 };
 
-export const createConversationsApi = async (conversationId) => {
-  console.log("newConversationRef: firebaseDB", firebaseDB);
-  const dbRef = ref(firebaseDB, `conversations`);
-  console.log("newConversationRef: dbRef ", dbRef);
-  const newConversationRef = push(dbRef);
-  console.log("reateConversationsApi: newConversationRef", newConversationRef);
-  const result = await set(newConversationRef, {
-    id:newConversationRef.key,
-    title: conversationId,
-    value: "",
-  }).then(()=> {return {
-    id:newConversationRef.key,
-    title: conversationId,
-    value: "",
-  }}).catch((error) => {
-    console.error("createConversationsApi: error", error);
-    return error;
-  });  
+export const createMessagesApi = async (message, roomId) => {
+  const newMessage = { ...message, id: nanoid(), date: new Date() };
 
-  return result;
+  await push(child(ref(firebaseDB), roomId), newMessage).catch((error) => {
+    console.error("createMessagesApi: error", error);
+    return error;
+  });
+
+  return newMessage;
 };
 
 export const removeConversationsApi = async (conversationId) => {
   console.log("newConversationRef: firebaseDB", firebaseDB);
   const dbRef = ref(firebaseDB, `conversations/${conversationId}`);
   console.log("newConversationRef: dbRef ", dbRef);
-  const result = await remove(dbRef).then(()=> {return ("Success")}).catch((error) => {
-    console.error("createConversationsApi: error", error);
-    return error;
-  });  
-console.log("result",result)
+  const result = await remove(dbRef)
+    .then(() => {
+      return "Success";
+    })
+    .catch((error) => {
+      console.error("createConversationsApi: error", error);
+      return error;
+    });
+  console.log("result", result);
   return result;
 };
