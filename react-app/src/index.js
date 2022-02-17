@@ -1,59 +1,124 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import styles from "./index.module.css";
+import { useSelector } from "react-redux";
+import { Header, PrivateRoute, PublicRoute } from "./components";
+import {
+  ProfilePage,
+  ChatPage,
+  GistsPage,
+  LoginPage,
+  SignUpPage,
+  HomePage,
+} from "./pages";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { store, persistor } from "./store";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { firebaseApp } from "./api/firebase";
+
+import "./global.css";
 
 const AppComponent = () => {
-  const messages = [
-    {
-      author: "Michael",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2022, 0, 2),
-    },
-    {
-      author: "Fedor",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2021, 0, 1),
-    },
-    {
-      author: "Maga",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo debitis laborum eius itaque assumenda harum deserunt enim. Officia aliquam maxime nulla reiciendis commodi autem magni!",
-      date: new Date(2001, 1, 12),
-    },
-  ];
-  return <MessageComponent messages={messages} />;
-};
+  const state = useSelector((state) => state.profile);
+  const [session, setSession] = useState(null);
 
-function MessageComponent({ messages }) {
-  const timeOptions = {
-    era: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timezone: "UTC",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
+  useEffect(() => {
+    console.log(onAuthStateChanged);
+    const auth = getAuth(firebaseApp);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setSession(user);
+      } else {
+        setSession(null);
+      }
+    });
+  }, []);
+
+  const isAuth = !!session;
+  const userId = session?.uid;
+  console.log("uid", session?.uid);
+  console.log("console.log(isAuth);", isAuth);
+
+  const darkTheme = {
+    palette: {
+      primary: {
+        main: "#8e9e82",
+        dark: "#f1e0b1",
+        light: "#eab67a",
+      },
+      secondary: {
+        main: "#b69479",
+        dark: "#908373",
+        light: "#ece8e3",
+      },
+    },
   };
+  const theme = createTheme(state.isDarkTheme ? darkTheme : {});
+
   return (
-    <div className={styles.messages}>
-      {messages.map((message, id) => {
-        return (
-          <div data-id={id} className={styles.message}>
-            <h2>Message number {id + 1}:</h2>
-            <p>Author: {message.author}</p>
-            <p>{message.text}</p>
-            <p>Date: {message.date.toLocaleString("ru", timeOptions)}</p>
-          </div>
-        );
-      })}
+    <div>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Header session={session} isAuth={isAuth} userId={"room2"} />
+          <Routes>
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute isAuth={isAuth}>
+                  <ProfilePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chat/*"
+              element={
+                <PrivateRoute isAuth={isAuth}>
+                  <ChatPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/gists/*"
+              element={
+                <PrivateRoute isAuth={isAuth}>
+                  <GistsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute isAuth={isAuth}>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/sign-up"
+              element={
+                <PublicRoute isAuth={isAuth}>
+                  <SignUpPage />
+                </PublicRoute>
+              }
+            />
+            <Route path="/" element={<HomePage isAuth={isAuth} />} />
+            <Route path="/*" element={<h1>404</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
-}
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppComponent />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <AppComponent />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
