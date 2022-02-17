@@ -1,3 +1,4 @@
-export const messagesSelectorByRoomId = (roomId) => (state) => {
-  return state.messages.messages[roomId] || [];
+export const messagesSelectorByRoomId = () => (state) => {
+  
+  return state.messages;
 };

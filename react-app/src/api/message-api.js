@@ -2,7 +2,7 @@ import { ref, child, get, set, push, remove, update } from "firebase/database";
 import { nanoid } from "nanoid";
 import { firebaseDB } from "./firebase";
 
-export const getMessagesApi = async () => {
+export const getMessagesApi = async (roomId) => {
   const dbRef = ref(firebaseDB);
   console.log("getMessagesApi dbRef", dbRef);
   const result = await get(child(dbRef, `messages`))

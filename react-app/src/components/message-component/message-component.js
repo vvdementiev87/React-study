@@ -22,7 +22,7 @@ export const MessageComponent = () => {
     messagesSelectorByRoomId(roomId)
   );
 
-  console.log("messages", messages);
+  console.log("messages", messages[roomId]);
 
   const send = useCallback(
     (message, author = "User") => {
@@ -59,7 +59,7 @@ export const MessageComponent = () => {
   return (
     <div className={styles.messages} ref={ref}>
       <div className={styles.messagesList}>
-        {messages?.map((message, index) => (
+        {messages[roomId]?.map((message, index) => (
           <Message key={index} message={message} roomId={roomId} />
         ))}
       </div>

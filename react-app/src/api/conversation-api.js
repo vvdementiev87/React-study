@@ -28,7 +28,7 @@ export const createConversationsApi = async (conversationId) => {
     title: conversationId,
     value: "",
   };
-  updates["/messages/" + newConversationRef.key] = false;
+  updates["/messages/" + newConversationRef.key] = {roomId:newConversationRef.key};
   console.log("reateConversationsApi: newConversationRef", newConversationRef);
   const result = await update(dbRef, updates)
     .then(() => {

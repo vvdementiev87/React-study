@@ -8,33 +8,43 @@ import {
   setMessagesSuccess,
 } from "./actions";
 
-export const sendMessageWithBot = (roomId, message) => (dispatch, getState) => {
+export const sendMessageWithBot = (roomId, message) => (dispatch, _) => {
   dispatch(sendMessage(roomId, message));
   if (message.author === "User") {
     setTimeout(() => {
       dispatch(
-        sendMessage(roomId, { author: "Bot", text: "message from Bot thunk" })
+        createMessagesFb(roomId, { author: "Bot", message: "message from Bot thunk" })
       );
     }, 500);
   }
 };
 
-export const getMessagesFb = (roomId) => async (dispatch, _, api) => {
-  const messages = [];
+export const getMessagesFb = () => async (dispatch, _, api) => {
+  const messages = {};
 
   try {
     dispatch(getMessagesStart());
 
-    const snapshotFb = await api.getMessagesApi(roomId);
-    console.log("getConversationsFb: snapshotFb", snapshotFb.val());
-
+    const snapshotFb = await api.getMessagesApi();
+    console.log("getConversationsFb: snapshotFb", snapshotFb);
+    const messagesL=[];
     if (snapshotFb.exists()) {
-      snapshotFb.forEach((snap) => {
-        console.log(snap.val());
-        messages.push(snap.val());
-      });
+      snapshotFb.forEach((snap) => {               
+        messagesL[snap.key]=[];
+        messages[snap.key]=[];
+        console.log("snapshotFb.child(snap.key)",snapshotFb.child(snap.key));
+        snapshotFb.child(snap.key).forEach((snapshot) => {
+          if (snap.key!==snapshot.val()){console.log("message snapshotFb.child(snap.key).forEach((snapshot)",snapshot.val());
+          messages[snap.key].push(snapshot.val());}
+          
+        });
+      })
+
+      console.log("messages step 1",messagesL);
+
+     
     }
-    console.log(messages);
+    console.log("getMessagesFb messages",messages);
     dispatch(getMessagesSuccess(messages));
   } catch (e) {
     dispatch(getMessagesError(e));

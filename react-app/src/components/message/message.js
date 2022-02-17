@@ -16,7 +16,7 @@ export function Message({ message, roomId }) {
       }
     >
       <p className={styles.messageText}>{message.author}</p>
-      <p>{message.text}</p>
+      <p>{message.message}</p>
       <p>{Date(message.date)}</p>
       {/* <p className={styles.messageText}>{message?.date}</p> */}
       <div>
