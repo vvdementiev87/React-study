@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import {
   SEND_MESSAGE,
   DELETE_MESSAGE_BY_ID,
@@ -30,8 +29,6 @@ export const messagesReducer = (state = initialState, action) => {
             ...(state.messages[action.payload.roomId] ?? []),
             {
               ...action.payload.message,
-              id: nanoid(),
-              date: new Date(),
             },
           ],
         },

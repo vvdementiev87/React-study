@@ -7,6 +7,8 @@ import {
 import { Delete } from "@mui/icons-material";
 import { AccountCircle } from "@mui/icons-material";
 import { useStyles } from "./use-style";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export function Chat({
   id,
@@ -16,6 +18,8 @@ export function Chat({
   deleteConversationByName,
 }) {
   const styles = useStyles();
+  const navigate = useNavigate();
+  const SET_CONVERSATIONS_ERROR = useSelector((s) => s);
 
   return (
     <ListItem

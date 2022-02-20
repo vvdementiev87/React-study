@@ -108,7 +108,7 @@ export const Header = (props) => {
 
             <Tooltip title={state.firstName + " " + state.lastName}>
               <IconButton /* onClick={handleOpenUserMenu} */>
-                <Avatar alt="W" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="W" />
               </IconButton>
             </Tooltip>
             {/* <Menu

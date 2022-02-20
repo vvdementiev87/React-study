@@ -20,7 +20,7 @@ const persistConfig = {
   storage,
 };
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   profile: profileReducer,
   conversations: conversationsReducer,
   messages: messagesReducer,

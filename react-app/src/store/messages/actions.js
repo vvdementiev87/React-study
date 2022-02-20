@@ -1,4 +1,3 @@
-import { messagesReducer } from ".";
 import {
   SEND_MESSAGE,
   DELETE_MESSAGE_BY_ID,

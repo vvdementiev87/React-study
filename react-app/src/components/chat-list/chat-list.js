@@ -4,11 +4,10 @@ import { useStyles } from "./use-style";
 import { Chat } from "../chat";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteConversation,
   conversationsSelector,
   getConversationsFb,
   createConversationsFb,
-  deleteConversationsFb
+  deleteConversationsFb,
 } from "../../store/conversations";
 import { useCallback, useEffect } from "react";
 
@@ -17,9 +16,7 @@ export const ChatList = () => {
   const navigate = useNavigate();
   const { roomId } = useParams();
   const dispatch = useDispatch();
-  const { conversations, pending, error } = useSelector(
-    conversationsSelector()
-  );
+  const { conversations, pending } = useSelector(conversationsSelector());
 
   console.log(conversations);
 
@@ -63,13 +60,9 @@ export const ChatList = () => {
         + Room
       </Button>
       {conversations.map((chat, index) => (
-        <Link
-          key={index}
-          to={`/chat/${chat.id}`}
-          className={styles.chatItem}
-        >
+        <Link key={index} to={`/chat/${chat.id}`} className={styles.chatItem}>
           <Chat
-          id={chat.id}
+            id={chat.id}
             title={chat.title}
             selected={roomId === chat.id}
             deleteConversationByName={deleteConversationByName}
