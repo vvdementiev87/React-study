@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.63e69008.css","mappings":"AAAA,EAGI,qBAAqB,CAFrB,QAAS,CAGT,eAAgB,CAFhB,SAGF,CACA,KACE,0BACF","sources":["global.css"],"sourcesContent":["* {\r\n    margin: 0;\r\n    padding: 0;\r\n    box-sizing:border-box;\r\n    min-height: 100%;\r\n  }\r\n  body{\r\n    background-color:#ece8e36b;\r\n  }"],"names":[],"sourceRoot":""}
